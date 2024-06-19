@@ -1,18 +1,56 @@
-// Update this page (the content is just a fallback if you fail and example)
-// Use chakra-ui
-import { Container, Text, VStack } from "@chakra-ui/react";
-
-// Example of using react-icons
-// import { FaRocket } from "react-icons/fa";
-// <IconButton aria-label="Add" icon={<FaRocket />} size="lg" />; // IconButton would also have to be imported from chakra
+import { useState } from "react";
+import { Container, VStack, Button, Input, FormControl, FormLabel, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure, Alert, AlertIcon, AlertTitle, AlertDescription, Box } from "@chakra-ui/react";
 
 const Index = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [showAlert, setShowAlert] = useState(false);
+
   return (
-    <Container centerContent maxW="container.md" height="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-      <VStack spacing={4}>
-        <Text fontSize="2xl">Your Blank Canvas</Text>
-        <Text>Chat with the agent to start making edits.</Text>
+    <Container centerContent maxW="container.md" py={10}>
+      <VStack spacing={4} width="100%">
+        <Button colorScheme="teal" onClick={onOpen}>Open Modal</Button>
+        <Button colorScheme="red" onClick={() => setShowAlert(true)}>Show Alert</Button>
+        <FormControl id="email">
+          <FormLabel>Email address</FormLabel>
+          <Input type="email" />
+        </FormControl>
+        <FormControl id="password">
+          <FormLabel>Password</FormLabel>
+          <Input type="password" />
+        </FormControl>
+        <Button colorScheme="blue">Submit</Button>
       </VStack>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Modal Title</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            This is the content of the modal.
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {showAlert && (
+        <Alert status="error" mt={4}>
+          <AlertIcon />
+          <Box flex="1">
+            <AlertTitle>Error!</AlertTitle>
+            <AlertDescription>
+              This is an error alert.
+            </AlertDescription>
+          </Box>
+          <Button onClick={() => setShowAlert(false)} ml={4}>
+            Close
+          </Button>
+        </Alert>
+      )}
     </Container>
   );
 };
